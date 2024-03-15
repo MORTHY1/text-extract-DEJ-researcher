@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Extractor</title>
+<style>
+    /* Your existing CSS styles here */
+
+    /* Custom font for title and buttons */
+    h1,
+    .custom-file-input,
+    button {
+        font-family: 'Coiny', cursive;
+    }
+</style>
+<script>
+    // Replace the current URL with a new URL
+    history.replaceState(null, null, 'https://text-extractor.com/by_DEJ-researcher');
+
+    // Optionally, you can also replace the page title
+    document.title = 'Text Extractor';
+</script>
+</head>
+<body>
+<div class="container">
+    <h1>Drop or Choose IMG</h1>
+    <label for="file-input" class="custom-file-input">Choose file</label>
+    <input type="file" id="file-input" onchange="extractTextFromImage()">
+    <div class="loading" id="loading"></div>
+    <div id="output"></div>
+    <div class="error" id="error-message"></div>
+    <button onclick="copyText()">Copy Text</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.5/dist/tesseract.min.js"></script>
+<script>
+    document.body.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    });
+
+    document.body.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            document.getElementById('file-input').files = e.dataTransfer.files;
+            extractTextFromImage();
+        }
+    });
+
+    async function extractTextFromImage() {
+        const fileInput = document.getElementById('file-input');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            showError('Please select an image file.');
+            return;
+        }
+
+        // Show loading indicator
+        document.getElementById('loading').style.display = 'inline-block';
+        hideError();
+
+        try {
+            const { data: { text } } = await Tesseract.recognize(file);
+            document.getElementById('output').innerText = text;
+        } catch (error) {
+            console.error('Error during OCR:', error);
+            showError('An error occurred during text extraction. Please try again.');
+        } finally {
+            // Hide loading indicator
+            document.getElementById('loading').style.display = 'none';
+            // Show the output
+            document.getElementById('output').style.display = 'block';
+        }
+    }
+
+    function showError(message) {
+        document.getElementById('error-message').innerText = message;
+        document.getElementById('error-message').style.display = 'block';
+    }
+
+    function hideError() {
+        document.getElementById('error-message').style.display = 'none';
+    }
+
+    function copyText() {
+        const output = document.getElementById('output');
+        if (output.innerText) {
+            navigator.clipboard.writeText(output.innerText)
+                .then(() => alert('Text copied to clipboard'))
+                .catch(() => alert('Failed to copy text. Please try again.'));
+        } else {
+            alert('No text to copy. Please extract text first.');
+        }
+    }
+</script>
+</body>
+</html>
