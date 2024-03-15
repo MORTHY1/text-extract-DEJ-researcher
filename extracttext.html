@@ -5,7 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text Extractor</title>
 <style>
-    /* Your existing CSS styles here */
+    @import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://cdn.discordapp.com/attachments/1218177748925943882/1218190174731894834/DROP_or_CHOOSE_IMG_FILE_2.png?ex=6606c302&is=65f44e02&hm=9639d03ffc4bd95b78fdbffb13b3fdd9a79721bda38defc56c8674bf5369c773&");
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+}
+    .container {
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    background-image: url("https://media.discordapp.net/attachments/1218177748925943882/1218190992671244360/DROP_or_CHOOSE_IMG_FILE_4.png?ex=6606c3c5&is=65f44ec5&hm=020604c7b780578fa1d03d21486ff7e25ea74426dbabf3e62354e732d3a1c434&=&format=webp&quality=lossless&width=550&height=309");
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+}
+    #output {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        white-space: pre-wrap;
+        overflow-y: auto; /* Scrollbar for overflow */
+        max-height: 200px; /* Limit height to enable scrolling */
+        border-radius: 5px; /* Rounded corners */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    }
+    #output::-webkit-scrollbar {
+        width: 10px;
+    }
+    #output::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    #output::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 8px; /* Soft edge */
+    }
+    input[type="file"] {
+        display: none; /* Hide the default file input */
+    }
+    .custom-file-input {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        outline: none; /* Remove focus outline */
+    }
+    .custom-file-input:hover {
+        background-color: #0056b3;
+    }
+    .custom-file-input:active {
+        background-color: #004080;
+    }
+    .loading {
+        display: none;
+        margin-bottom: 10px;
+    }
+    .loading::after {
+        content: "Loading...";
+        display: inline-block;
+        margin-left: 5px;
+    }
+    .error {
+        color: red;
+        margin-top: 10px;
+    }
+
+    /* Media query for mobile devices */
+    @media only screen and (max-width: 600px) {
+        .container {
+            padding: 10px;
+        }
+        input[type="file"],
+        button {
+            width: 100%;
+        }
+        #output {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    }
 
     /* Custom font for title and buttons */
     h1,
@@ -14,13 +104,6 @@
         font-family: 'Coiny', cursive;
     }
 </style>
-<script>
-    // Replace the current URL with a new URL
-    history.replaceState(null, null, 'https://text-extractor.com/by_DEJ-researcher');
-
-    // Optionally, you can also replace the page title
-    document.title = 'Text Extractor';
-</script>
 </head>
 <body>
 <div class="container">
@@ -93,6 +176,16 @@
             alert('No text to copy. Please extract text first.');
         }
     }
+
+    function changeURL() {
+        const newURL = 'https://image-text-extractor.DEJ.com';
+        history.pushState({}, '', newURL);
+    }
+
+    // Call the changeURL function after the page has loaded
+    window.onload = function() {
+        changeURL();
+    };
 </script>
 </body>
 </html>
